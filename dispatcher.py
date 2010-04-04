@@ -4,7 +4,7 @@ try:
 except NameError:
     from sets import Set as set # Python 2.3 fallback
 
-from django.dispatch import saferef
+from dispatch import saferef
 
 WEAKREF_TYPES = (weakref.ReferenceType, saferef.BoundMethodWeakref)
 
@@ -22,6 +22,8 @@ class Signal(object):
         receivers
             { receriverkey (id) : weakref(receiver) }
     """
+    
+    _debugging = False
     
     def __init__(self, providing_args=None):
         """
@@ -70,10 +72,8 @@ class Signal(object):
                 a receiver. This will usually be a string, though it may be
                 anything hashable.
         """
-        from django.conf import settings
-        
-        # If DEBUG is on, check that we got a good receiver
-        if settings.DEBUG:
+        # If debugging is on, check that we got a good receiver
+        if self._debugging:
             import inspect
             assert callable(receiver), "Signal receivers must be callable."
             
