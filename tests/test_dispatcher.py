@@ -23,6 +23,11 @@ class Callable(object):
     def a(self, val, **kwargs):
         return val
 
+class Sender(object):
+    signal = Signal(providing_args=["val"])
+    def send(self):
+        self.signal.send(sender=self, val="test")
+
 a_signal = Signal(providing_args=["val"])
 
 class DispatcherTests(unittest.TestCase):
@@ -42,7 +47,18 @@ class DispatcherTests(unittest.TestCase):
         self.assertEqual(result, expected)
         a_signal.disconnect(receiver_1_arg, sender=self)
         self._testIsClean(a_signal)
-
+    
+    def testInstanceSender(self):
+        s1 = Sender()
+        s2 = Sender()
+        Sender.signal.connect(receiver_1_arg, sender=s1)
+        result = Sender.signal.send(sender=s2, val="test")
+        expected = []
+        self.assertEqual(result, expected)
+        result = Sender.signal.send(sender=s1, val="test")
+        expected = [(receiver_1_arg, "test")]
+        self.assertEqual(result, expected)
+        
     def testIgnoredSender(self):
         a_signal.connect(receiver_1_arg)
         expected = [(receiver_1_arg,"test")]
