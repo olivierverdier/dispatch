@@ -1,7 +1,56 @@
+Dispatch: signal broadcasting in python
+****************************************
+
+This python library is extracted from `django`_'s `dispatch module`_.
+
+This very documentation is also adapted from `the django documentation on signals`_.
+
+.. _django: http://djangoproject.com
+.. _dispatch module: http://code.djangoproject.com/browser/django/trunk/django/dispatch
+.. _the django documentation on signals: http://docs.djangoproject.com/en/1.1/topics/signals/
+
+Overview
+========
+
+Signals are useful when two otherwise unrelated pieces of code depend on each other.
+The general pattern is that a *receiver* (or listener) may *subscribe* (or listen) to the *signal* of a *sender*.
+When the sender sends (or broadcasts) a signal, the receiver is called.
+
+Here is an excerpt from the `PyPubSub <http://pypi.python.org/pypi/PyPubSub/>`_ documentation about the advantages of the signal pattern:
+
+* the sender/listener do not need import each other
+* a sender doesn't need to know
+
+  * "who" gets the messages,
+  * what the listeners will do with the data,
+  * or even if any listener will get the message data.
+* similarly, listeners do not necessary need to worry about where messages come from.
+
+Lazy Evaluation Pattern
+-----------------------
+
+A typical use case is the *lazy evaluation* pattern, very useful whenever any expensive computing is involved.
+Imagine that some expensive function ``F`` depends on one variable ``x``.
+Since the evaluation of the function is expensive, the value ``F(x)`` will be cached.
+
+Assume further that ``x`` is defined in a totally unrelated module.
+How to cache the value of ``F(x)`` so that it is only recomputed when ``x`` changes?
+
+A naive approach would be for the object responsible for ``x`` to explicitly tell the function ``F`` that ``x`` has changed.
+The drawback is that ``x`` must know all the function that depend on it!
+It makes the code difficult to reuse, since each time you add a function depending on ``x`` you will have to change the code responsible for ``x``.
+This is not acceptable.
+
+This is where signals come to the rescue.
+The object responsible for the changing of ``x`` just has to send a signal whenever the value of ``x`` changes.
+The function ``F`` then listen to that signal, and sets its cached value as needing to be recomputed.
+
+The latter approach is very flexible. It allows for several functions to depend on one variable ``x``, without the variable ``x`` being aware of it. It also allows for one function to depend on several variables, as long as all those variables send signals when their value changes.
+
+
 Defining and sending signals
 ============================
 
-Your applications can take advantage of the signal infrastructure and provide its own signals.
 
 Defining signals
 ----------------
@@ -52,7 +101,7 @@ Receiver functions
 First, we need to define a receiver function. A receiver can be any Python function or method::
 
     def my_callback(sender, **kwargs):
-        print "Request finished!"
+        print "Pizza ready!"
 
 Notice that the function takes a ``sender`` argument, along with wildcard
 keyword arguments (``**kwargs``); all signal handlers must take these arguments.
