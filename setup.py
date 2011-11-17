@@ -16,6 +16,6 @@ setup(
         "Programming Language :: Python",
         "License :: OSI Approved :: BSD License",
         "Intended Audience :: Developers",
-        "Topic :: Software Development :: Libraries :: Python Modules",
+        "Topic :: Software Development :: Libraries :: Python Modules"],
     zip_safe = False,
     )
