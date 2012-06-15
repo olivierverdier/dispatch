@@ -70,7 +70,7 @@ Remember that you're allowed to change this list of arguments at any time, so ge
 Sending signals
 ---------------
 
-To send a signal, call :literal:`Signal.send`.
+To send a signal, call `Signal.send`.
 You must provide the `sender` argument, and may provide as many other keyword arguments as you like.
 
 For example, here's how sending our `pizza_done` signal might look:
@@ -90,7 +90,7 @@ Listening to signals
 
 To receive a signal, you need to register a *receiver* function that gets called when the signal is sent.
 Let's see how this works by registering a signal that gets called after each pizza is finished.
-We'll be connecting to the :literal:`pizza_done` signal.
+We'll be connecting to the `pizza_done` signal.
 
 Receiver functions
 ------------------
@@ -108,7 +108,7 @@ all signal handlers must take these arguments.
 
 Look at the `**kwargs` argument.
 All signals send keyword arguments, and may change those keyword arguments at any time.
-In the case of :literal:`pizza_done`, it's documented as sending two arguments, topping and size, which means we might be tempted to write our signal handling as `my_callback(sender, toppings, size)`.
+In the case of `pizza_done`, it's documented as sending two arguments, topping and size, which means we might be tempted to write our signal handling as `my_callback(sender, toppings, size)`.
 
 
 This would be wrong – in fact, `dispatch` will throw an error if you do so.
@@ -130,7 +130,7 @@ Connecting to signals sent by specific senders
 ----------------------------------------------
 
 Some signals get sent many times, but you'll only be interested in receiving a certain subset of those signals.
-For example, consider the :literal:`pizza_done` signal.
+For example, consider the `pizza_done` signal.
 Most of the time, you don't need to know when *any* pizza is ready – just when a pizza from a *specific* pizza store is ready.
 
 In these cases, you can register to receive signals sent only by particular senders.
