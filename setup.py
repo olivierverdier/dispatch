@@ -3,7 +3,10 @@ from distutils.core import setup
 setup(
     name = 'Dispatch',
     description = 'A library for event-driven programming',
-    packages = ['dispatch'],
+    packages = [
+        'dispatch',
+        'dispatch.tests',
+    ],
     classifiers = [
         "Development Status :: 4 - Beta",
         "Operating System :: OS Independent",
