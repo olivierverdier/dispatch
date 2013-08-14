@@ -1,6 +1,9 @@
 from dispatch.saferef import *
 
-import unittest
+try:
+    import unittest2 as unittest
+except:
+    import unittest
 
 class Test1(object):
     def x(self):
