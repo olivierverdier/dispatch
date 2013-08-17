@@ -5,18 +5,18 @@ try:
 except:
     import unittest
 
-class Test1(object):
-    def x(self):
-        pass
-
-def dummy(obj):
+def Function(obj):
     pass
 
-class Test2(object):
+class Class(object):
     def __call__(self, obj):
         pass
 
-class TestSaferefForTest1(unittest.TestCase):
+class Classfunc(object):
+    def x(self):
+        pass
+
+class TestSaferefForFunction(unittest.TestCase):
     def setUp(self):
         self.sources = []
         self.refs = []
@@ -34,14 +34,15 @@ class TestSaferefForTest1(unittest.TestCase):
         del self.refs
 
     def get_source(self):
-        return Test1()
+        return Function
 
     def get_referant(self, source):
-        return source.x
+        # By default, referant == source
+        return source
 
     @property
     def count(self):
-        return 5 # 5000
+        return 1
     
     def testIn(self):
         """Test the "in" operator for safe references (cmp)"""
@@ -81,33 +82,30 @@ class TestSaferefForTest1(unittest.TestCase):
         """Dumb utility mechanism to increment deletion counter"""
         self.closureCount +=1
 
-class TestSaferefForTest2(TestSaferefForTest1):
+class TestSaferefForClass(TestSaferefForFunction):
     def get_source(self):
-        return Test2()
-
-    def get_referant(self, source):
-        return source
+        return Class()
 
     @property
     def count(self):
         return 3 # 30
 
-class TestSaferefForDummy(TestSaferefForTest1):
+class TestSaferefForClassfunc(TestSaferefForFunction):
     def get_source(self):
-        return dummy
+        return Classfunc()
 
     def get_referant(self, source):
-        return source
+        return source.x
 
     @property
     def count(self):
-        return 1
+        return 5 # 5000
 
 def getSuite():
     cases = [
-        TestSaferefForTest1,
-        TestSaferefForTest2,
-        TestSaferefForDummy,
+        TestSaferefForFunction,
+        TestSaferefForClass,
+        TestSaferefForClassfunc,
     ]
     suite = unittest.TestSuite()
     for case in cases:
