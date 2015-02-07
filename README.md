@@ -1,5 +1,7 @@
 # Dispatch: signal broadcasting in python
 
+[![Build Status](https://img.shields.io/travis/olivierverdier/dispatch/master.svg)](https://travis-ci.org/olivierverdier/dispatch) [![Coverage Status](https://img.shields.io/coveralls/olivierverdier/dispatch/master.svg)](https://coveralls.io/r/olivierverdier/dispatch?branch=master)
+
 This python library is extracted from [django](http://djangoproject.com)'s [dispatch module](http://code.djangoproject.com/browser/django/trunk/django/dispatch).
 
 This very documentation is also adapted from [the django documentation on signals](http://docs.djangoproject.com/en/1.1/topics/signals/).
