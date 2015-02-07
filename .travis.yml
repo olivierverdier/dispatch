@@ -1,6 +1,17 @@
 language: python
+python:
+  - "2.7"
+  - "3.4"
 
-before_install:
-  - pip install tox
+install:
+  - "pip install nose-cov"
+  - "pip install python-coveralls"
+  - "pip install ."
 
-script: tox
+# Run test
+script:
+  - nosetests --with-cov --cov=dispatch --cov-config=.coveragerc --logging-level=DEBUG
+
+# Calculate coverage
+after_success:
+  - coveralls --config_file .coveragerc
